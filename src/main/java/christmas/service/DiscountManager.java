@@ -14,6 +14,7 @@ public class DiscountManager {
     private static final int DAY_OF_CHRISTMAS = 25;
     private static final int CHRISTMAS_D_DAY_DISCOUNT_DEFAULT = 1000;
     private static final int CHRISTMAS_D_DAY_DISCOUNT_UNIT = 1000;
+    private static final int SPECIAL_DISCOUNT = 1000;
 
     public void applyDiscount(Map<Orderable, Integer> menu, DecemberDate date) {
         int totalCost = 0;
@@ -21,6 +22,7 @@ public class DiscountManager {
 
         totalDiscount += weekDiscount(menu, date);
         totalDiscount += christmasDdayDiscount(date);
+        totalDiscount += specialDiscount(date);
     }
 
     private boolean isWeekend(DecemberDate date) {
@@ -62,6 +64,14 @@ public class DiscountManager {
             return 0;
         }
         return CHRISTMAS_D_DAY_DISCOUNT_DEFAULT + (decemberDate.date() - ONE) * CHRISTMAS_D_DAY_DISCOUNT_UNIT;
+    }
+
+    private int specialDiscount(DecemberDate decemberDate) {
+        if (decemberDate.date() == DAY_OF_CHRISTMAS
+                || decemberDate.date() % ONE_WEEK == 3) {
+            return SPECIAL_DISCOUNT;
+        }
+        return 0;
     }
 
 }
