@@ -11,5 +11,6 @@ public class EventPlanner {
         menu.forEach(order::addMenu);
 
         order.isOverLimit();
+        order.isOnlyBeverage();
     }
 }

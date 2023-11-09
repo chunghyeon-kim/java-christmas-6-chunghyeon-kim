@@ -37,4 +37,15 @@ class OrderTest {
         order.isOverLimit();
     }
 
+    @DisplayName("음료만 주문할 경우 예외가 발생한다.")
+    @Test
+    void onlyBeverage() {
+        order.addMenu(Beverage.ZERO_COLA, 3);
+        order.addMenu(Beverage.RED_WINE, 5);
+
+        Assertions.assertThatThrownBy(() -> {
+            order.isOnlyBeverage();
+        }).isInstanceOf(IllegalArgumentException.class);
+    }
+
 }
