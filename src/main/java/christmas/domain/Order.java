@@ -35,4 +35,8 @@ public class Order {
         }
     }
 
+    public Map<Orderable, Integer> getContents() {
+        return contents;
+    }
+
 }
