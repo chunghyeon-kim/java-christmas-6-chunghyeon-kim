@@ -5,6 +5,7 @@ import christmas.domain.constant.Dessert;
 import christmas.domain.constant.MainDish;
 import christmas.domain.constant.Orderable;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DiscountManager {
     private static final int ONE_WEEK = 7;
@@ -15,14 +16,31 @@ public class DiscountManager {
     private static final int CHRISTMAS_D_DAY_DISCOUNT_DEFAULT = 1000;
     private static final int CHRISTMAS_D_DAY_DISCOUNT_UNIT = 1000;
     private static final int SPECIAL_DISCOUNT = 1000;
+    private static final int PRESENTATION_THRESHOLD = 120000;
+    private static final int PRESENTATION_PRICE = 25000;
 
     public void applyDiscount(Map<Orderable, Integer> menu, DecemberDate date) {
-        int totalCost = 0;
+        int totalCost = getTotalCost(menu);
         int totalDiscount = 0;
 
         totalDiscount += weekDiscount(menu, date);
         totalDiscount += christmasDdayDiscount(date);
         totalDiscount += specialDiscount(date);
+
+        int totalBenefit = totalDiscount += isPresentation(totalCost);
+    }
+
+    private int getTotalCost(Map<Orderable, Integer> menu) {
+        AtomicInteger totalCost = new AtomicInteger();
+        menu.forEach((kindOfMenu, quantity) -> totalCost.addAndGet(kindOfMenu.getPrice() * quantity));
+        return totalCost.get();
+    }
+
+    private int isPresentation(int totalCost) {
+        if (totalCost < PRESENTATION_THRESHOLD) {
+            return 0;
+        }
+        return PRESENTATION_PRICE;
     }
 
     private boolean isWeekend(DecemberDate date) {
