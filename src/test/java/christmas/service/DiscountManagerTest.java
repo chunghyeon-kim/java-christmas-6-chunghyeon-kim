@@ -17,7 +17,7 @@ class DiscountManagerTest {
     private static final int WEEK_DISCOUNT_UNIT = 2023;
     private static final int SPECIAL_DISCOUNT = 1000;
 
-    private final DiscountManager manager = new DiscountManager();
+    private final DiscountManager discountManager = new DiscountManager();
 
     @DisplayName("총 주문 금액이 10000원 미만이면 할인이 적용되지 않는다.")
     @Test
@@ -28,7 +28,7 @@ class DiscountManagerTest {
 
         DecemberDate visitDate = new DecemberDate(1);
 
-        assertThat(manager.applyDiscount(menu, visitDate)).isEqualTo(0);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isZero();
     }
 
     @DisplayName("디데이 할인, 주말 할인 적용 테스트.")
@@ -41,7 +41,7 @@ class DiscountManagerTest {
 
         DecemberDate visitDate = new DecemberDate(8);
 
-        assertThat(manager.applyDiscount(menu, visitDate)).isEqualTo(WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isEqualTo(WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate));
     }
 
     @DisplayName("디데이 할인, 주말 할인 적용 테스트. (메인 메뉴가 없는 경우)")
@@ -54,7 +54,7 @@ class DiscountManagerTest {
 
         DecemberDate visitDate = new DecemberDate(8);
 
-        assertThat(manager.applyDiscount(menu, visitDate)).isEqualTo(dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isEqualTo(dDayDiscount(visitDate));
     }
 
     @DisplayName("디데이 할인, 평일 할인 적용 테스트.")
@@ -68,7 +68,7 @@ class DiscountManagerTest {
 
         DecemberDate visitDate = new DecemberDate(21);
 
-        assertThat(manager.applyDiscount(menu, visitDate)).isEqualTo(4 * WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isEqualTo(4 * WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate));
     }
 
     @DisplayName("디데이 할인, 평일 할인 적용 테스트. (디저트가 없는 경우)")
@@ -82,7 +82,7 @@ class DiscountManagerTest {
 
         DecemberDate visitDate = new DecemberDate(21);
 
-        assertThat(manager.applyDiscount(menu, visitDate)).isEqualTo(dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isEqualTo(dDayDiscount(visitDate));
     }
 
     @DisplayName("디데이 할인, 평일 할인, 특별 할인 적용 테스트.")
@@ -96,7 +96,7 @@ class DiscountManagerTest {
 
         DecemberDate visitDate = new DecemberDate(25);
 
-        assertThat(manager.applyDiscount(menu, visitDate))
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
                 .isEqualTo(4 * WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate) + SPECIAL_DISCOUNT);
     }
 
@@ -109,7 +109,7 @@ class DiscountManagerTest {
 
         DecemberDate visitDate = new DecemberDate(27);
 
-        assertThat(manager.applyDiscount(menu, visitDate)).isEqualTo(4 * WEEK_DISCOUNT_UNIT);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isEqualTo(4 * WEEK_DISCOUNT_UNIT);
     }
 
     private int dDayDiscount(DecemberDate decemberDate) {

@@ -28,24 +28,39 @@ public class DiscountManager {
             return benefitDto;
         }
 
-        if (!isWeekend(visitDate)) {
-            benefitDto.addBenefit(Benefit.WEEKDAY_DISCOUNT, getMainDishCount(menu) * WEEK_DISCOUNT_UNIT);
-        }
+        applyWeekDiscount(menu, benefitDto, visitDate);
+        applyDdayDiscount(benefitDto, visitDate);
+        applySpecialDiscount(benefitDto, visitDate);
 
+        return benefitDto;
+    }
+
+    private void applyWeekDiscount(Map<Orderable, Integer> menu, BenefitDto benefitDto, DecemberDate visitDate) {
         if (isWeekend(visitDate)) {
-            benefitDto.addBenefit(Benefit.WEEKEND_DISCOUNT, getDessertCount(menu) * WEEK_DISCOUNT_UNIT);
+            applyWeekdayDiscount(menu, benefitDto);
         }
+        applyWeekendDiscount(menu, benefitDto);
+    }
 
+    private void applyWeekdayDiscount(Map<Orderable, Integer> menu, BenefitDto benefitDto) {
+            benefitDto.addBenefit(Benefit.WEEKDAY_DISCOUNT, getMainDishCount(menu) * WEEK_DISCOUNT_UNIT);
+    }
+
+    private void applyWeekendDiscount(Map<Orderable, Integer> menu, BenefitDto benefitDto) {
+            benefitDto.addBenefit(Benefit.WEEKEND_DISCOUNT, getDessertCount(menu) * WEEK_DISCOUNT_UNIT);
+    }
+
+    private void applyDdayDiscount(BenefitDto benefitDto, DecemberDate visitDate) {
         if (visitDate.date() <= DAY_OF_CHRISTMAS) {
             benefitDto.addBenefit(Benefit.D_DAY_DISCOUNT, christmasDdayDiscount(visitDate));
         }
+    }
 
+    private void applySpecialDiscount(BenefitDto benefitDto, DecemberDate visitDate) {
         if (visitDate.date() == DAY_OF_CHRISTMAS
                 || visitDate.date() % ONE_WEEK == 3) {
             benefitDto.addBenefit(Benefit.SPECIAL_DISCOUNT, SPECIAL_DISCOUNT);
         }
-
-        return benefitDto;
     }
 
     private int getTotalCost(Map<Orderable, Integer> menu) {
