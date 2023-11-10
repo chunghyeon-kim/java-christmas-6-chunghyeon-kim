@@ -1,9 +1,11 @@
 package christmas.service;
 
 import christmas.domain.DecemberDate;
+import christmas.domain.constant.Benefit;
 import christmas.domain.constant.dish.Dessert;
 import christmas.domain.constant.dish.MainDish;
 import christmas.domain.constant.dish.Orderable;
+import christmas.domain.dto.BenefitDto;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,18 +23,31 @@ public class DiscountManager {
     private static final int PRESENTATION_THRESHOLD = 120000;
     private static final int PRESENTATION_PRICE = 25000;
 
-    public int applyDiscount(Map<Orderable, Integer> menu, DecemberDate date) {
+    public BenefitDto applyDiscount(Map<Orderable, Integer> menu, DecemberDate visitDate) {
         int totalCost = getTotalCost(menu);
+        BenefitDto benefitDto = new BenefitDto(menu, totalCost);
         if (totalCost < DISCOUNT_APPLY_LOWER_BOUND) {
-            return ZERO;
+            return benefitDto;
         }
-        int totalDiscount = ZERO;
 
-        totalDiscount += weekDiscount(menu, date);
-        totalDiscount += christmasDdayDiscount(date);
-        totalDiscount += specialDiscount(date);
+        if (!isWeekend(visitDate)) {
+            benefitDto.addBenefit(Benefit.WEEKDAY_DISCOUNT, getMainDishCount(menu) * WEEK_DISCOUNT_UNIT);
+        }
 
-        return totalDiscount;
+        if (isWeekend(visitDate)) {
+            benefitDto.addBenefit(Benefit.WEEKEND_DISCOUNT, getDessertCount(menu) * WEEK_DISCOUNT_UNIT);
+        }
+
+        if (visitDate.date() <= DAY_OF_CHRISTMAS) {
+            benefitDto.addBenefit(Benefit.D_DAY_DISCOUNT, christmasDdayDiscount(visitDate));
+        }
+
+        if (visitDate.date() == DAY_OF_CHRISTMAS
+                || visitDate.date() % ONE_WEEK == 3) {
+            benefitDto.addBenefit(Benefit.SPECIAL_DISCOUNT, SPECIAL_DISCOUNT);
+        }
+
+        return benefitDto;
     }
 
     private int getTotalCost(Map<Orderable, Integer> menu) {
@@ -53,13 +68,6 @@ public class DiscountManager {
 
         return dateNumber % ONE_WEEK == ONE
                 || dateNumber % ONE_WEEK == TWO;
-    }
-
-    private int weekDiscount(Map<Orderable, Integer> menu, DecemberDate date) {
-        if (isWeekend(date)) {
-            return getMainDishCount(menu) * WEEK_DISCOUNT_UNIT;
-        }
-        return getDessertCount(menu) * WEEK_DISCOUNT_UNIT;
     }
 
     private int getDessertCount(Map<Orderable, Integer> menu) {
@@ -87,14 +95,6 @@ public class DiscountManager {
             return ZERO;
         }
         return (decemberDate.date() - ONE) * CHRISTMAS_D_DAY_DISCOUNT_UNIT + CHRISTMAS_D_DAY_DISCOUNT_DEFAULT;
-    }
-
-    private int specialDiscount(DecemberDate decemberDate) {
-        if (decemberDate.date() == DAY_OF_CHRISTMAS
-                || decemberDate.date() % ONE_WEEK == 3) {
-            return SPECIAL_DISCOUNT;
-        }
-        return ZERO;
     }
 
 }
