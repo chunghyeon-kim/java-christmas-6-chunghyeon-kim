@@ -20,8 +20,6 @@ public class DiscountManager {
     private static final int CHRISTMAS_D_DAY_DISCOUNT_DEFAULT = 1000;
     private static final int CHRISTMAS_D_DAY_DISCOUNT_UNIT = 100;
     private static final int SPECIAL_DISCOUNT = 1000;
-    private static final int PRESENTATION_THRESHOLD = 120000;
-    private static final int PRESENTATION_PRICE = 25000;
 
     public BenefitDto applyDiscount(Map<Orderable, Integer> menu, DecemberDate visitDate) {
         int totalCost = getTotalCost(menu);
@@ -54,13 +52,6 @@ public class DiscountManager {
         AtomicInteger totalCost = new AtomicInteger();
         menu.forEach((kindOfMenu, quantity) -> totalCost.addAndGet(kindOfMenu.getPrice() * quantity));
         return totalCost.get();
-    }
-
-    private int isPresentation(int totalCost) {
-        if (totalCost < PRESENTATION_THRESHOLD) {
-            return ZERO;
-        }
-        return PRESENTATION_PRICE;
     }
 
     private boolean isWeekend(DecemberDate date) {

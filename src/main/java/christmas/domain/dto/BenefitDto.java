@@ -52,6 +52,10 @@ public class BenefitDto {
         return badge;
     }
 
+    public void presentChampagne() {
+        presentation = Beverage.CHAMPAGNE;
+    }
+
     public void setBadge(Badge badge) {
         this.badge = badge;
     }

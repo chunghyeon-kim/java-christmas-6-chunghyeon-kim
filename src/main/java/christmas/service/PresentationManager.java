@@ -1,14 +1,18 @@
 package christmas.service;
 
+import christmas.domain.constant.Benefit;
+import christmas.domain.dto.BenefitDto;
+
 public class PresentationManager {
     private static final int PRESENTATION_THRESHOLD = 120000;
     private static final int PRESENTATION_PRICE = 25000;
 
-    private int isPresentation(int totalCost) {
-        if (totalCost < PRESENTATION_THRESHOLD) {
-            return 0;
+    public BenefitDto present(BenefitDto benefitDto) {
+        if (benefitDto.getTotalCost() >= PRESENTATION_THRESHOLD) {
+            benefitDto.addBenefit(Benefit.PRESENTATION, PRESENTATION_PRICE);
+            benefitDto.presentChampagne();
         }
-        return PRESENTATION_PRICE;
+        return benefitDto;
     }
 
 }
