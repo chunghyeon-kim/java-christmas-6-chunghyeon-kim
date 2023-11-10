@@ -1,8 +1,8 @@
 package christmas.domain;
 
-import christmas.domain.constant.Appetizer;
-import christmas.domain.constant.Beverage;
-import christmas.domain.constant.Dessert;
+import christmas.domain.constant.dish.Appetizer;
+import christmas.domain.constant.dish.Beverage;
+import christmas.domain.constant.dish.Dessert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

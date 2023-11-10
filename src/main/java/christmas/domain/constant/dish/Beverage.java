@@ -1,4 +1,4 @@
-package christmas.domain.constant;
+package christmas.domain.constant.dish;
 
 import java.util.Map;
 import java.util.stream.Collectors;

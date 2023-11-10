@@ -1,33 +1,38 @@
 package christmas.service;
 
 import christmas.domain.DecemberDate;
-import christmas.domain.constant.Dessert;
-import christmas.domain.constant.MainDish;
-import christmas.domain.constant.Orderable;
+import christmas.domain.constant.dish.Dessert;
+import christmas.domain.constant.dish.MainDish;
+import christmas.domain.constant.dish.Orderable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DiscountManager {
     private static final int ONE_WEEK = 7;
+    private static final int ZERO = 0;
     private static final int ONE = 1;
     private static final int TWO = 2;
+    private static final int DISCOUNT_APPLY_LOWER_BOUND = 10000;
     private static final int WEEK_DISCOUNT_UNIT = 2023;
     private static final int DAY_OF_CHRISTMAS = 25;
     private static final int CHRISTMAS_D_DAY_DISCOUNT_DEFAULT = 1000;
-    private static final int CHRISTMAS_D_DAY_DISCOUNT_UNIT = 1000;
+    private static final int CHRISTMAS_D_DAY_DISCOUNT_UNIT = 100;
     private static final int SPECIAL_DISCOUNT = 1000;
     private static final int PRESENTATION_THRESHOLD = 120000;
     private static final int PRESENTATION_PRICE = 25000;
 
-    public void applyDiscount(Map<Orderable, Integer> menu, DecemberDate date) {
+    public int applyDiscount(Map<Orderable, Integer> menu, DecemberDate date) {
         int totalCost = getTotalCost(menu);
-        int totalDiscount = 0;
+        if (totalCost < DISCOUNT_APPLY_LOWER_BOUND) {
+            return ZERO;
+        }
+        int totalDiscount = ZERO;
 
         totalDiscount += weekDiscount(menu, date);
         totalDiscount += christmasDdayDiscount(date);
         totalDiscount += specialDiscount(date);
 
-        int totalBenefit = totalDiscount += isPresentation(totalCost);
+        return totalDiscount;
     }
 
     private int getTotalCost(Map<Orderable, Integer> menu) {
@@ -38,7 +43,7 @@ public class DiscountManager {
 
     private int isPresentation(int totalCost) {
         if (totalCost < PRESENTATION_THRESHOLD) {
-            return 0;
+            return ZERO;
         }
         return PRESENTATION_PRICE;
     }
@@ -58,7 +63,7 @@ public class DiscountManager {
     }
 
     private int getDessertCount(Map<Orderable, Integer> menu) {
-        int dessertCount = 0;
+        int dessertCount = ZERO;
         for (Map.Entry<Orderable, Integer> entry : menu.entrySet()) {
             if (entry.getKey() instanceof Dessert) {
                 dessertCount += entry.getValue();
@@ -68,7 +73,7 @@ public class DiscountManager {
     }
 
     private int getMainDishCount(Map<Orderable, Integer> menu) {
-        int dessertCount = 0;
+        int dessertCount = ZERO;
         for (Map.Entry<Orderable, Integer> entry : menu.entrySet()) {
             if (entry.getKey() instanceof MainDish) {
                 dessertCount += entry.getValue();
@@ -79,9 +84,9 @@ public class DiscountManager {
 
     private int christmasDdayDiscount(DecemberDate decemberDate) {
         if (decemberDate.date() > DAY_OF_CHRISTMAS) {
-            return 0;
+            return ZERO;
         }
-        return CHRISTMAS_D_DAY_DISCOUNT_DEFAULT + (decemberDate.date() - ONE) * CHRISTMAS_D_DAY_DISCOUNT_UNIT;
+        return (decemberDate.date() - ONE) * CHRISTMAS_D_DAY_DISCOUNT_UNIT + CHRISTMAS_D_DAY_DISCOUNT_DEFAULT;
     }
 
     private int specialDiscount(DecemberDate decemberDate) {
@@ -89,7 +94,7 @@ public class DiscountManager {
                 || decemberDate.date() % ONE_WEEK == 3) {
             return SPECIAL_DISCOUNT;
         }
-        return 0;
+        return ZERO;
     }
 
 }

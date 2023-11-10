@@ -1,7 +1,7 @@
 package christmas.service;
 
 import christmas.domain.Order;
-import christmas.domain.constant.Orderable;
+import christmas.domain.constant.dish.Orderable;
 import java.util.Map;
 
 public class EventPlanner {

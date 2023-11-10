@@ -1,4 +1,4 @@
-package christmas.domain.constant;
+package christmas.domain.constant.dish;
 
 public interface Orderable {
     String getLabel();

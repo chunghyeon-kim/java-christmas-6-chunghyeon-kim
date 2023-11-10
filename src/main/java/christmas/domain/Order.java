@@ -1,7 +1,7 @@
 package christmas.domain;
 
-import christmas.domain.constant.Beverage;
-import christmas.domain.constant.Orderable;
+import christmas.domain.constant.dish.Beverage;
+import christmas.domain.constant.dish.Orderable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
