@@ -2,11 +2,9 @@ package christmas.domain;
 
 import christmas.domain.constant.dish.Beverage;
 import christmas.domain.constant.dish.Orderable;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Order {
     private static final int TOTAL_MENU_UPPER_BOUND = 20;
@@ -20,10 +18,10 @@ public class Order {
     }
 
     public void isOverLimit() {
-        Collection<Integer> quantities = contents.values();
-        AtomicInteger count = new AtomicInteger();
-        quantities.forEach(count::addAndGet);
-        if (count.get() > TOTAL_MENU_UPPER_BOUND) {
+        int allDishes = contents.values().stream()
+                .mapToInt(Integer::valueOf)
+                .sum();
+        if (allDishes > TOTAL_MENU_UPPER_BOUND) {
             throw new IllegalArgumentException(MENU_OVER_BOUND);
         }
     }
