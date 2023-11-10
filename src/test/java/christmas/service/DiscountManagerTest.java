@@ -16,6 +16,11 @@ import org.junit.jupiter.api.Test;
 class DiscountManagerTest {
     private static final int WEEK_DISCOUNT_UNIT = 2023;
     private static final int SPECIAL_DISCOUNT = 1000;
+    private static final int ZERO = 0;
+    private static final int ONE = 1;
+    private static final int DAY_OF_CHRISTMAS = 25;
+    private static final int D_DAY_DISCOUNT_UNIT = 100;
+    private static final int D_DAY_DISCOUNT_DEFAULT = 1000;
 
     private final DiscountManager discountManager = new DiscountManager();
 
@@ -113,10 +118,10 @@ class DiscountManagerTest {
     }
 
     private int dDayDiscount(DecemberDate decemberDate) {
-        if (decemberDate.date() > 25) {
-            return 0;
+        if (decemberDate.date() > DAY_OF_CHRISTMAS) {
+            return ZERO;
         }
-        return (decemberDate.date() - 1) * 100 + 1000;
+        return (decemberDate.date() - ONE) * D_DAY_DISCOUNT_UNIT + D_DAY_DISCOUNT_DEFAULT;
     }
 
 }
