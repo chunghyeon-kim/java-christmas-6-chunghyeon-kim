@@ -32,6 +32,13 @@ public class BenefitDto {
                 .sum();
     }
 
+    public int getTotalBenefit() {
+        return benefitMap.entrySet().stream()
+                .map(Entry::getValue)
+                .mapToInt(Integer::valueOf)
+                .sum();
+    }
+
     public Map<Orderable, Integer> getDishes() {
         return dishes;
     }
