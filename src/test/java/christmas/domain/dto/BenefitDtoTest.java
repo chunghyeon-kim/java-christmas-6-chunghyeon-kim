@@ -29,7 +29,7 @@ class BenefitDtoTest {
         BenefitDto dto = new BenefitDto(menu, totalCost);
 
         dto.addBenefit(Benefit.D_DAY_DISCOUNT, 2000);
-        dto.addBenefit(Benefit.WEEKEND_DISCOUNT, 2023);
+        dto.addBenefit(Benefit.WEEK_END_DISCOUNT, 2023);
         dto.addBenefit(Benefit.SPECIAL_DISCOUNT, 1000);
         dto.addBenefit(Benefit.PRESENTATION, 25000);
 

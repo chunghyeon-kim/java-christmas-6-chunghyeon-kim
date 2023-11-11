@@ -3,6 +3,7 @@ package christmas.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.DecemberDate;
+import christmas.domain.constant.Benefit;
 import christmas.domain.constant.dish.Appetizer;
 import christmas.domain.constant.dish.Beverage;
 import christmas.domain.constant.dish.Dessert;
@@ -34,34 +35,45 @@ class DiscountManagerTest {
         DecemberDate visitDate = new DecemberDate(1);
 
         assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isZero();
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap()).isEmpty();
     }
 
-    @DisplayName("디데이 할인, 주말 할인 적용 테스트.")
+    @DisplayName("디데이 할인, 주말 할인 적용 테스트. (메인 메뉴가 있는 경우)")
     @Test
     void applyDateAndWeekendDiscount() {
         Map<Orderable, Integer> menu = new HashMap<>();
         menu.put(MainDish.BARBEQUE_RIBS, 1);
+        menu.put(Dessert.ICE_CREAM, 1);
         menu.put(Appetizer.TAPAS, 1);
         menu.put(Beverage.ZERO_COLA, 1);
 
         DecemberDate visitDate = new DecemberDate(8);
 
-        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isEqualTo(
-                WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
+                .isEqualTo(WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .containsKeys(Benefit.D_DAY_DISCOUNT, Benefit.WEEK_END_DISCOUNT);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .doesNotContainKeys(Benefit.WEEK_DAY_DISCOUNT, Benefit.SPECIAL_DISCOUNT);
     }
 
     @DisplayName("디데이 할인, 주말 할인 적용 테스트. (메인 메뉴가 없는 경우)")
     @Test
     void applyDateAndWeekendDiscount2() {
         Map<Orderable, Integer> menu = new HashMap<>();
+        menu.put(Dessert.CHOCOLATE_CAKE, 2);
         menu.put(Appetizer.CEASAR_SALAD, 3);
         menu.put(Appetizer.TAPAS, 1);
         menu.put(Beverage.ZERO_COLA, 1);
 
         DecemberDate visitDate = new DecemberDate(8);
 
-        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isEqualTo(
-                dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
+                .isEqualTo(dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .containsKeys(Benefit.D_DAY_DISCOUNT);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .doesNotContainKeys(Benefit.WEEK_END_DISCOUNT, Benefit.WEEK_DAY_DISCOUNT, Benefit.SPECIAL_DISCOUNT);
     }
 
     @DisplayName("디데이 할인, 평일 할인 적용 테스트.")
@@ -75,8 +87,12 @@ class DiscountManagerTest {
 
         DecemberDate visitDate = new DecemberDate(21);
 
-        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isEqualTo(
-                4 * WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
+                .isEqualTo(4 * WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .containsKeys(Benefit.D_DAY_DISCOUNT, Benefit.WEEK_DAY_DISCOUNT);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .doesNotContainKeys(Benefit.WEEK_END_DISCOUNT, Benefit.SPECIAL_DISCOUNT);
     }
 
     @DisplayName("디데이 할인, 평일 할인 적용 테스트. (디저트가 없는 경우)")
@@ -90,8 +106,12 @@ class DiscountManagerTest {
 
         DecemberDate visitDate = new DecemberDate(21);
 
-        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isEqualTo(
-                dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
+                .isEqualTo(dDayDiscount(visitDate));
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .containsKey(Benefit.D_DAY_DISCOUNT);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .doesNotContainKeys(Benefit.WEEK_DAY_DISCOUNT, Benefit.WEEK_END_DISCOUNT, Benefit.SPECIAL_DISCOUNT);
     }
 
     @DisplayName("디데이 할인, 평일 할인, 특별 할인 적용 테스트.")
@@ -107,9 +127,13 @@ class DiscountManagerTest {
 
         assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
                 .isEqualTo(4 * WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate) + SPECIAL_DISCOUNT);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .containsKeys(Benefit.D_DAY_DISCOUNT, Benefit.WEEK_DAY_DISCOUNT, Benefit.SPECIAL_DISCOUNT);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .doesNotContainKey(Benefit.WEEK_END_DISCOUNT);
     }
 
-    @DisplayName("평일 할인 테스트.")
+    @DisplayName("크리스마스 이후 평일 할인 테스트.")
     @Test
     void applyWeekdayDiscount() {
         Map<Orderable, Integer> menu = new HashMap<>();
@@ -118,7 +142,12 @@ class DiscountManagerTest {
 
         DecemberDate visitDate = new DecemberDate(27);
 
-        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount()).isEqualTo(4 * WEEK_DISCOUNT_UNIT);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
+                .isEqualTo(4 * WEEK_DISCOUNT_UNIT);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .containsKey(Benefit.WEEK_DAY_DISCOUNT);
+        assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
+                .doesNotContainKey(Benefit.D_DAY_DISCOUNT);
     }
 
     private int dDayDiscount(DecemberDate decemberDate) {

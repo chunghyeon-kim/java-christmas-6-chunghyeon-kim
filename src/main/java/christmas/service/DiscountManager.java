@@ -38,17 +38,24 @@ public class DiscountManager {
 
     private void applyWeekDiscount(Map<Orderable, Integer> menu, BenefitDto benefitDto, DecemberDate visitDate) {
         if (isWeekend(visitDate)) {
-            applyWeekdayDiscount(menu, benefitDto);
+            applyWeekendDiscount(menu, benefitDto);
+            return;
         }
-        applyWeekendDiscount(menu, benefitDto);
-    }
-
-    private void applyWeekdayDiscount(Map<Orderable, Integer> menu, BenefitDto benefitDto) {
-        benefitDto.addBenefit(Benefit.WEEKDAY_DISCOUNT, getMainDishCount(menu) * WEEK_DISCOUNT_UNIT);
+        applyWeekdayDiscount(menu, benefitDto);
     }
 
     private void applyWeekendDiscount(Map<Orderable, Integer> menu, BenefitDto benefitDto) {
-        benefitDto.addBenefit(Benefit.WEEKEND_DISCOUNT, getDessertCount(menu) * WEEK_DISCOUNT_UNIT);
+        if (getMainDishCount(menu) == ZERO) {
+            return;
+        }
+        benefitDto.addBenefit(Benefit.WEEK_END_DISCOUNT, getMainDishCount(menu) * WEEK_DISCOUNT_UNIT);
+    }
+
+    private void applyWeekdayDiscount(Map<Orderable, Integer> menu, BenefitDto benefitDto) {
+        if (getDessertCount(menu) == ZERO) {
+            return;
+        }
+        benefitDto.addBenefit(Benefit.WEEK_DAY_DISCOUNT, getDessertCount(menu) * WEEK_DISCOUNT_UNIT);
     }
 
     private void applyDdayDiscount(BenefitDto benefitDto, DecemberDate visitDate) {
