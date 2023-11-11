@@ -35,18 +35,20 @@ public class InputView {
 
     private Map<String, Integer> getOrderInput() {
         System.out.println(Message.MENU_CALL.getContent());
+        Map<String, Integer> emptyMap = new LinkedHashMap<>();
         String input = Console.readLine().trim();
+        if (isInvalid(input)) {
+            return emptyMap;
+        }
         String[] eachMenuString = splitByComma(input);
         int kindOfMenu = eachMenuString.length;
 
         Map<String, Integer> parsedOrder = new LinkedHashMap<>();
-
         parseOrder(eachMenuString, parsedOrder);
 
         if (parsedOrder.size() != kindOfMenu) {
-            return new LinkedHashMap<>();
+            return emptyMap;
         }
-
         return parsedOrder;
     }
 
@@ -98,6 +100,14 @@ public class InputView {
         if (originCount != parsedOrder.keySet().size()) {
             throw new IllegalArgumentException(Message.INVALID_ORDER.getContent());
         }
+    }
+
+    private boolean isInvalid(String input) {
+        boolean inputStartsOrEndWithCOMMA = input.startsWith(COMMA) || input.endsWith(COMMA);
+        if (inputStartsOrEndWithCOMMA) {
+            System.out.println(Message.INVALID_ORDER.getContent());
+        }
+        return inputStartsOrEndWithCOMMA;
     }
 
 }
