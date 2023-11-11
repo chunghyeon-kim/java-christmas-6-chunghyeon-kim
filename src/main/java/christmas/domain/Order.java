@@ -1,5 +1,6 @@
 package christmas.domain;
 
+import christmas.domain.constant.Message;
 import christmas.domain.constant.dish.Beverage;
 import christmas.domain.constant.dish.Orderable;
 import java.util.LinkedHashMap;
@@ -8,8 +9,6 @@ import java.util.Set;
 
 public class Order {
     private static final int TOTAL_MENU_UPPER_BOUND = 20;
-    private static final String MENU_OVER_BOUND = "[ERROR] 메뉴는 20개를 초과할 수 없습니다.";
-    private static final String ONLY_BEVERAGE = "[ERROR] 음료만 주문할 수 없습니다.";
 
     private final Map<Orderable, Integer> contents = new LinkedHashMap<>();
 
@@ -22,14 +21,14 @@ public class Order {
                 .mapToInt(Integer::valueOf)
                 .sum();
         if (allDishes > TOTAL_MENU_UPPER_BOUND) {
-            throw new IllegalArgumentException(MENU_OVER_BOUND);
+            throw new IllegalArgumentException(Message.MENU_UPPER_BOUND_VIOLATION.getContent());
         }
     }
 
     public void isOnlyBeverage() {
         Set<Orderable> orderableSet = contents.keySet();
         if (orderableSet.stream().allMatch(Beverage.class::isInstance)) {
-            throw new IllegalArgumentException(ONLY_BEVERAGE);
+            throw new IllegalArgumentException(Message.NOT_ONLY_BEVERAGE.getContent());
         }
     }
 
