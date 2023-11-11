@@ -15,9 +15,9 @@ public class InputView {
     private static final int DISH_COUNT_LOWER_BOUND = 1;
 
     public DecemberDate getVisitDate() {
-        System.out.println(Message.VISIT_DATE_CALL.getContent());
         DecemberDate visitDate;
         do {
+            System.out.println(Message.VISIT_DATE_CALL.getContent());
             visitDate = getVisitDateInput();
         } while (visitDate == null);
 
