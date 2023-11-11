@@ -47,6 +47,7 @@ public class InputView {
                 int dishCount = Integer.parseInt(menuAndCount[SECOND_INDEX]);
                 validateDishCount(dishCount);
                 parsedOrder.put(menuAndCount[FIRST_INDEX], dishCount);
+                validateDishDuplicated(menuAndCount.length, parsedOrder);
             });
         } catch (NumberFormatException nfe) {
             System.out.println(Message.INVALID_ORDER.getContent());
@@ -85,6 +86,12 @@ public class InputView {
 
     private void validateDishCount(int dishCount) {
         if (dishCount < DISH_COUNT_LOWER_BOUND) {
+            throw new IllegalArgumentException(Message.INVALID_ORDER.getContent());
+        }
+    }
+
+    private void validateDishDuplicated(int originCount, Map<String, Integer> parsedOrder) {
+        if (originCount != parsedOrder.size()) {
             throw new IllegalArgumentException(Message.INVALID_ORDER.getContent());
         }
     }
