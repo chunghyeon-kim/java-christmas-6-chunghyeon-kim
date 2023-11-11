@@ -18,6 +18,7 @@ public class ChristmasController {
     private final DiscountManager discountManager = new DiscountManager();
 
     public void start() {
+        outputView.printWelcomeMessage();
         DecemberDate visitDate = inputView.getVisitDate();
         Order order = getOrder();
         BenefitDto benefitDto = discountManager.applyDiscount(order.getContents(), visitDate);
@@ -27,7 +28,6 @@ public class ChristmasController {
     }
 
     private Order getOrder() {
-        outputView.printWelcomeMessage();
         Order order;
         do {
             order = tryToGetOrder();
