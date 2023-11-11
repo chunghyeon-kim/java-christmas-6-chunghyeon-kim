@@ -28,7 +28,7 @@ public class InputView {
         Map<String, Integer> result;
         do {
             result = getOrderInput();
-        } while(result.isEmpty());
+        } while (result.isEmpty());
 
         return result;
     }

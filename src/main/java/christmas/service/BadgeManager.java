@@ -8,7 +8,11 @@ public class BadgeManager {
     private static final int TREE_THRESHOLD = 10000;
     private static final int STAR_THRESHOLD = 5000;
 
-    public BenefitDto grantBadge(BenefitDto benefitDto) {
+    private BadgeManager() {
+
+    }
+
+    public static BenefitDto grantBadge(BenefitDto benefitDto) {
         if (benefitDto.getTotalBenefit() >= SANTA_THRESHOLD) {
             benefitDto.setBadge(Badge.SANTA);
             return benefitDto;

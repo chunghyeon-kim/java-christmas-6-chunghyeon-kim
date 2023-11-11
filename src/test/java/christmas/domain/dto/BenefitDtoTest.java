@@ -1,7 +1,6 @@
 package christmas.domain.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import christmas.domain.constant.Benefit;
 import christmas.domain.constant.dish.Appetizer;

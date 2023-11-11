@@ -10,14 +10,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BadgeManagerTest {
-    private final BadgeManager badgeManager = new BadgeManager();
-
     @DisplayName("총 혜택금액이 20000원 이상인 경우 산타 배지를 부여한다.")
     @Test
     void grantSantaBadge() {
         BenefitDto dto = new BenefitDto(new HashMap<>(), 100000);
         dto.addBenefit(Benefit.PRESENTATION, 20000);
-        badgeManager.grantBadge(dto);
+        BadgeManager.grantBadge(dto);
 
         assertThat(dto.getBadge()).isEqualTo(Badge.SANTA);
     }
@@ -27,7 +25,7 @@ class BadgeManagerTest {
     void grantTreeBadge() {
         BenefitDto dto = new BenefitDto(new HashMap<>(), 100000);
         dto.addBenefit(Benefit.PRESENTATION, 10000);
-        badgeManager.grantBadge(dto);
+        BadgeManager.grantBadge(dto);
 
         assertThat(dto.getBadge()).isEqualTo(Badge.TREE);
     }
@@ -37,7 +35,7 @@ class BadgeManagerTest {
     void grantStarBadge() {
         BenefitDto dto = new BenefitDto(new HashMap<>(), 100000);
         dto.addBenefit(Benefit.PRESENTATION, 5000);
-        badgeManager.grantBadge(dto);
+        BadgeManager.grantBadge(dto);
 
         assertThat(dto.getBadge()).isEqualTo(Badge.STAR);
     }
@@ -47,7 +45,7 @@ class BadgeManagerTest {
     void notGrantBadge() {
         BenefitDto dto = new BenefitDto(new HashMap<>(), 100000);
         dto.addBenefit(Benefit.PRESENTATION, 4999);
-        badgeManager.grantBadge(dto);
+        BadgeManager.grantBadge(dto);
 
         assertThat(dto.getBadge()).isNull();
     }

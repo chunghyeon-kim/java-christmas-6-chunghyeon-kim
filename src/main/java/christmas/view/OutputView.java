@@ -26,7 +26,7 @@ public class OutputView {
 
 
     public void printWelcomeMessage() {
-        System.out.println(Message.WELCOME);
+        System.out.println(Message.WELCOME.getContent());
     }
 
     public void printEventBenefit(DecemberDate visitDate, BenefitDto benefitDto) {

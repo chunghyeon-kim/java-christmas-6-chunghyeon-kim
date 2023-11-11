@@ -1,16 +1,33 @@
 package christmas.controller;
 
+import christmas.domain.DecemberDate;
 import christmas.domain.Order;
-import christmas.domain.constant.Message;
+import christmas.domain.dto.BenefitDto;
+import christmas.service.BadgeManager;
+import christmas.service.DiscountManager;
 import christmas.service.OrderMaker;
+import christmas.service.PresentationManager;
 import christmas.view.InputView;
+import christmas.view.OutputView;
 import java.util.Map;
 
 public class ChristmasController {
     private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
     private final OrderMaker orderMaker = new OrderMaker();
+    private final DiscountManager discountManager = new DiscountManager();
 
-    public Order getOrder() {
+    public void start() {
+        DecemberDate visitDate = inputView.getVisitDate();
+        Order order = getOrder();
+        BenefitDto benefitDto = discountManager.applyDiscount(order.getContents(), visitDate);
+        PresentationManager.present(benefitDto);
+        BadgeManager.grantBadge(benefitDto);
+        outputView.printEventBenefit(visitDate, benefitDto);
+    }
+
+    private Order getOrder() {
+        outputView.printWelcomeMessage();
         Order order;
         do {
             order = tryToGetOrder();
@@ -23,8 +40,10 @@ public class ChristmasController {
         Map<String, Integer> parsedInput = inputView.getOrder();
         try {
             order = orderMaker.makeOrder(parsedInput);
-        } catch (Exception e) {
-            System.out.println(Message.INVALID_ORDER.getContent());
+            order.isOverLimit();
+            order.isOnlyBeverage();
+        } catch (IllegalArgumentException ie) {
+            System.out.println(ie.getMessage());
         }
         return order;
     }
