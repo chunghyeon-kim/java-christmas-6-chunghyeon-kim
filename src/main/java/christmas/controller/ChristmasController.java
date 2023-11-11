@@ -2,13 +2,13 @@ package christmas.controller;
 
 import christmas.domain.Order;
 import christmas.domain.constant.Message;
-import christmas.service.DishFinder;
+import christmas.service.OrderMaker;
 import christmas.view.InputView;
 import java.util.Map;
 
 public class ChristmasController {
     private final InputView inputView = new InputView();
-    private final DishFinder dishFinder = new DishFinder();
+    private final OrderMaker orderMaker = new OrderMaker();
 
     public Order getOrder() {
         Order order;
@@ -22,7 +22,7 @@ public class ChristmasController {
         Order order = null;
         Map<String, Integer> parsedInput = inputView.getOrder();
         try {
-            order = dishFinder.getOrder(parsedInput);
+            order = orderMaker.makeOrder(parsedInput);
         } catch (Exception e) {
             System.out.println(Message.INVALID_ORDER.getContent());
         }
