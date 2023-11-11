@@ -40,8 +40,7 @@ public class ChristmasController {
         Map<String, Integer> parsedInput = inputView.getOrder();
         try {
             order = orderMaker.makeOrder(parsedInput);
-            order.isOverLimit();
-            order.isOnlyBeverage();
+            order.validate();
         } catch (IllegalArgumentException ie) {
             System.out.println(ie.getMessage());
         }

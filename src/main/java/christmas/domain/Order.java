@@ -16,7 +16,12 @@ public class Order {
         contents.put(menu, quantity);
     }
 
-    public void isOverLimit() {
+    public void validate() {
+        validateNotOverLimit();
+        validateNotOnlyBeverage();
+    }
+
+    private void validateNotOverLimit() {
         int allDishes = contents.values().stream()
                 .mapToInt(Integer::valueOf)
                 .sum();
@@ -25,7 +30,7 @@ public class Order {
         }
     }
 
-    public void isOnlyBeverage() {
+    private void validateNotOnlyBeverage() {
         Set<Orderable> orderableSet = contents.keySet();
         if (orderableSet.stream().allMatch(Beverage.class::isInstance)) {
             throw new IllegalArgumentException(Message.NOT_ONLY_BEVERAGE.getContent());

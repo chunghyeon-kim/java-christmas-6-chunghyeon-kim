@@ -24,7 +24,7 @@ class OrderTest {
         order.addMenu(Dessert.ICE_CREAM, 1);
 
         Assertions.assertThatThrownBy(() -> {
-            order.isOverLimit();
+            order.validate();
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -34,7 +34,7 @@ class OrderTest {
         order.addMenu(Appetizer.TAPAS, 10);
         order.addMenu(Beverage.ZERO_COLA, 10);
 
-        order.isOverLimit();
+        order.validate();
     }
 
     @DisplayName("음료만 주문할 경우 예외가 발생한다.")
@@ -44,7 +44,7 @@ class OrderTest {
         order.addMenu(Beverage.RED_WINE, 5);
 
         Assertions.assertThatThrownBy(() -> {
-            order.isOnlyBeverage();
+            order.validate();
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
