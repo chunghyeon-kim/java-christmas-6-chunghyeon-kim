@@ -73,7 +73,7 @@ public class InputView {
             int input = Integer.parseInt(Console.readLine().trim());
             return new DecemberDate(input);
         } catch (NumberFormatException nfe) {
-            System.out.println(Message.VISIT_DATE_SHOULD_NOT_CHARACTER.getContent());
+            System.out.println(Message.INVALID_DATE.getContent());
         } catch (IllegalArgumentException ie) {
             System.out.println(ie.getMessage());
         }
