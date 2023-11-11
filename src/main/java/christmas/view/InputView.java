@@ -12,6 +12,7 @@ public class InputView {
     private static final String HYPHEN = "-";
     private static final int FIRST_INDEX = 0;
     private static final int SECOND_INDEX = 1;
+    private static final int TWO_WORDS = 2;
     private static final int DISH_COUNT_LOWER_BOUND = 1;
 
     public DecemberDate getVisitDate() {
@@ -37,7 +38,7 @@ public class InputView {
         System.out.println(Message.MENU_CALL.getContent());
         Map<String, Integer> emptyMap = new LinkedHashMap<>();
         String input = Console.readLine().trim();
-        if (isInvalid(input)) {
+        if (validateKindAndCountSplit(input)) {
             return emptyMap;
         }
         String[] eachMenuString = splitByComma(input);
@@ -56,6 +57,7 @@ public class InputView {
         try {
             Stream.of(eachMenuString).forEach(kindAndCount -> {
                 String[] kindAndCountSplit = splitByHyphen(kindAndCount);
+                validateKindAndCountSplit(kindAndCountSplit);
                 int dishCount = Integer.parseInt(kindAndCountSplit[SECOND_INDEX]);
                 validateDishCount(dishCount);
                 parsedOrder.put(kindAndCountSplit[FIRST_INDEX], dishCount);
@@ -102,12 +104,18 @@ public class InputView {
         }
     }
 
-    private boolean isInvalid(String input) {
+    private boolean validateKindAndCountSplit(String input) {
         boolean inputStartsOrEndWithCOMMA = input.startsWith(COMMA) || input.endsWith(COMMA);
         if (inputStartsOrEndWithCOMMA) {
             System.out.println(Message.INVALID_ORDER.getContent());
         }
         return inputStartsOrEndWithCOMMA;
+    }
+
+    private void validateKindAndCountSplit(String[] kindAndCountSplit) {
+        if (kindAndCountSplit.length > TWO_WORDS) {
+            throw new IllegalArgumentException(Message.INVALID_ORDER.getContent());
+        }
     }
 
 }
