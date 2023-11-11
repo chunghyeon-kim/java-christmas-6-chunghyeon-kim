@@ -33,8 +33,7 @@ public class BenefitDto {
     }
 
     public int getTotalBenefit() {
-        return benefitMap.entrySet().stream()
-                .map(Entry::getValue)
+        return benefitMap.values().stream()
                 .mapToInt(Integer::valueOf)
                 .sum();
     }

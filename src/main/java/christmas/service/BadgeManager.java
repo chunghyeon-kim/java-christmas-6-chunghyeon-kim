@@ -12,23 +12,20 @@ public class BadgeManager {
 
     }
 
-    public static BenefitDto grantBadge(BenefitDto benefitDto) {
+    public static void grantBadge(BenefitDto benefitDto) {
         if (benefitDto.getTotalBenefit() >= SANTA_THRESHOLD) {
             benefitDto.setBadge(Badge.SANTA);
-            return benefitDto;
+            return;
         }
 
         if (benefitDto.getTotalBenefit() >= TREE_THRESHOLD) {
             benefitDto.setBadge(Badge.TREE);
-            return benefitDto;
+            return;
         }
 
         if (benefitDto.getTotalBenefit() >= STAR_THRESHOLD) {
             benefitDto.setBadge(Badge.STAR);
-            return benefitDto;
         }
-
-        return benefitDto;
     }
 
 }

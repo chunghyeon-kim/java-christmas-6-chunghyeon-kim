@@ -11,12 +11,11 @@ public class PresentationManager {
 
     }
 
-    public static BenefitDto present(BenefitDto benefitDto) {
+    public static void present(BenefitDto benefitDto) {
         if (benefitDto.getTotalCost() >= PRESENTATION_THRESHOLD) {
             benefitDto.addBenefit(Benefit.PRESENTATION, PRESENTATION_PRICE);
             benefitDto.presentChampagne();
         }
-        return benefitDto;
     }
 
 }

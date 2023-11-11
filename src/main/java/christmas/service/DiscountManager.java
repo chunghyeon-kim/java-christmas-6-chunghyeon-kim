@@ -14,9 +14,10 @@ public class DiscountManager {
     private static final int ZERO = 0;
     private static final int ONE = 1;
     private static final int TWO = 2;
+    private static final int THREE = 3;
     private static final int DISCOUNT_APPLY_LOWER_BOUND = 10000;
     private static final int WEEK_DISCOUNT_UNIT = 2023;
-    private static final int DAY_OF_CHRISTMAS = 25;
+    private static final int DATE_OF_CHRISTMAS = 25;
     private static final int CHRISTMAS_D_DAY_DISCOUNT_DEFAULT = 1000;
     private static final int CHRISTMAS_D_DAY_DISCOUNT_UNIT = 100;
     private static final int SPECIAL_DISCOUNT = 1000;
@@ -51,14 +52,14 @@ public class DiscountManager {
     }
 
     private void applyDdayDiscount(BenefitDto benefitDto, DecemberDate visitDate) {
-        if (visitDate.date() <= DAY_OF_CHRISTMAS) {
+        if (visitDate.date() <= DATE_OF_CHRISTMAS) {
             benefitDto.addBenefit(Benefit.D_DAY_DISCOUNT, christmasDdayDiscount(visitDate));
         }
     }
 
     private void applySpecialDiscount(BenefitDto benefitDto, DecemberDate visitDate) {
-        if (visitDate.date() == DAY_OF_CHRISTMAS
-                || visitDate.date() % ONE_WEEK == 3) {
+        if (visitDate.date() == DATE_OF_CHRISTMAS
+                || visitDate.date() % ONE_WEEK == THREE) {
             benefitDto.addBenefit(Benefit.SPECIAL_DISCOUNT, SPECIAL_DISCOUNT);
         }
     }
@@ -97,7 +98,7 @@ public class DiscountManager {
     }
 
     private int christmasDdayDiscount(DecemberDate decemberDate) {
-        if (decemberDate.date() > DAY_OF_CHRISTMAS) {
+        if (decemberDate.date() > DATE_OF_CHRISTMAS) {
             return ZERO;
         }
         return (decemberDate.date() - ONE) * CHRISTMAS_D_DAY_DISCOUNT_UNIT + CHRISTMAS_D_DAY_DISCOUNT_DEFAULT;
