@@ -12,6 +12,7 @@ public class InputView {
     private static final String HYPHEN = "-";
     private static final int FIRST_INDEX = 0;
     private static final int SECOND_INDEX = 1;
+    private static final int DISH_COUNT_LOWER_BOUND = 1;
 
     public DecemberDate getVisitDate() {
         System.out.println(Message.VISIT_DATE_CALL.getContent());
@@ -43,10 +44,14 @@ public class InputView {
         try {
             Stream.of(eachMenuString).forEach(string -> {
                 String[] menuAndCount = splitByHyphen(string);
-                parsedOrder.put(menuAndCount[FIRST_INDEX], Integer.parseInt(menuAndCount[SECOND_INDEX]));
+                int dishCount = Integer.parseInt(menuAndCount[SECOND_INDEX]);
+                validateDishCount(dishCount);
+                parsedOrder.put(menuAndCount[FIRST_INDEX], dishCount);
             });
         } catch (NumberFormatException nfe) {
-            System.out.println(Message.MENU_COUNT_SHOULD_NOT_CHARACTER.getContent());
+            System.out.println(Message.INVALID_ORDER.getContent());
+        } catch (IllegalArgumentException ie) {
+            System.out.println(ie.getMessage());
         } catch (IndexOutOfBoundsException ioe) {
             System.out.println(Message.INVALID_ORDER.getContent());
         }
@@ -76,6 +81,12 @@ public class InputView {
 
     private String[] splitByHyphen(String input) {
         return input.split(HYPHEN);
+    }
+
+    private void validateDishCount(int dishCount) {
+        if (dishCount < DISH_COUNT_LOWER_BOUND) {
+            throw new IllegalArgumentException(Message.INVALID_ORDER.getContent());
+        }
     }
 
 }
