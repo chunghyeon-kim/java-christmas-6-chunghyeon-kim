@@ -77,8 +77,8 @@ public class DiscountManager {
         return totalCost.get();
     }
 
-    private boolean isWeekend(DecemberDate date) {
-        int dateNumber = date.date();
+    private boolean isWeekend(DecemberDate visitDate) {
+        int dateNumber = visitDate.date();
 
         return dateNumber % ONE_WEEK == ONE
                 || dateNumber % ONE_WEEK == TWO;
@@ -104,11 +104,11 @@ public class DiscountManager {
         return dessertCount;
     }
 
-    private int christmasDdayDiscount(DecemberDate decemberDate) {
-        if (decemberDate.date() > DATE_OF_CHRISTMAS) {
+    private int christmasDdayDiscount(DecemberDate visitDate) {
+        if (visitDate.date() > DATE_OF_CHRISTMAS) {
             return ZERO;
         }
-        return (decemberDate.date() - ONE) * CHRISTMAS_D_DAY_DISCOUNT_UNIT + CHRISTMAS_D_DAY_DISCOUNT_DEFAULT;
+        return (visitDate.date() - ONE) * CHRISTMAS_D_DAY_DISCOUNT_UNIT + CHRISTMAS_D_DAY_DISCOUNT_DEFAULT;
     }
 
 }
