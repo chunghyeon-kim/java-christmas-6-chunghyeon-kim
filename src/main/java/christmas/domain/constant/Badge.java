@@ -11,4 +11,8 @@ public enum Badge {
         this.label = label;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
 }

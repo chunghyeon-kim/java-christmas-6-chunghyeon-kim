@@ -13,4 +13,8 @@ public enum Benefit {
         this.label = label;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
 }
