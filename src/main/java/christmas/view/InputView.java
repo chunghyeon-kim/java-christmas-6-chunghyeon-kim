@@ -41,12 +41,22 @@ public class InputView {
 
         Map<String, Integer> parsedOrder = new LinkedHashMap<>();
 
+        parseOrder(eachMenuString, parsedOrder);
+
+        if (parsedOrder.size() != kindOfMenu) {
+            return new LinkedHashMap<>();
+        }
+
+        return parsedOrder;
+    }
+
+    private void parseOrder(String[] eachMenuString, Map<String, Integer> parsedOrder) {
         try {
-            Stream.of(eachMenuString).forEach(string -> {
-                String[] menuAndCount = splitByHyphen(string);
-                int dishCount = Integer.parseInt(menuAndCount[SECOND_INDEX]);
+            Stream.of(eachMenuString).forEach(kindAndCount -> {
+                String[] kindAndCountSplit = splitByHyphen(kindAndCount);
+                int dishCount = Integer.parseInt(kindAndCountSplit[SECOND_INDEX]);
                 validateDishCount(dishCount);
-                parsedOrder.put(menuAndCount[FIRST_INDEX], dishCount);
+                parsedOrder.put(kindAndCountSplit[FIRST_INDEX], dishCount);
             });
             validateDishDuplicated(eachMenuString.length, parsedOrder);
         } catch (NumberFormatException nfe) {
@@ -56,12 +66,6 @@ public class InputView {
         } catch (IndexOutOfBoundsException ioe) {
             System.out.println(Message.INVALID_ORDER.getContent());
         }
-
-        if (parsedOrder.size() != kindOfMenu) {
-            return new LinkedHashMap<>();
-        }
-
-        return parsedOrder;
     }
 
     private DecemberDate getVisitDateInput() {
