@@ -13,6 +13,7 @@ public class OrderMaker {
     public Order makeOrder(Map<String, Integer> parsedOrder) {
         Order order = new Order();
         parsedOrder.forEach((dishLabel, count) -> order.addMenu(findDish(dishLabel), count));
+        order.validate();
         return order;
     }
 

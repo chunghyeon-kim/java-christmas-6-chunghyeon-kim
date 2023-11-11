@@ -36,13 +36,13 @@ public class ChristmasController {
     }
 
     private Order tryToGetOrder() {
-        Order order = null;
+        Order order;
         Map<String, Integer> parsedInput = inputView.getOrder();
         try {
             order = orderMaker.makeOrder(parsedInput);
-            order.validate();
         } catch (IllegalArgumentException ie) {
             System.out.println(ie.getMessage());
+            return null;
         }
         return order;
     }
