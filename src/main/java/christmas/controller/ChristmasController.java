@@ -10,6 +10,7 @@ import christmas.service.PresentationManager;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.util.Map;
+import java.util.Objects;
 
 public class ChristmasController {
     private final InputView inputView = new InputView();
@@ -31,7 +32,7 @@ public class ChristmasController {
         Order order;
         do {
             order = tryToGetOrder();
-        } while (null == order);
+        } while (Objects.isNull(order));
         return order;
     }
 

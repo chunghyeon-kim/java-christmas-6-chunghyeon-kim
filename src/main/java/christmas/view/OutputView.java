@@ -10,6 +10,7 @@ import christmas.domain.dto.BenefitDto;
 import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 
 public class OutputView {
@@ -68,7 +69,7 @@ public class OutputView {
     private void printPresentationMenu(BenefitDto benefitDto) {
         System.out.println(PRESENTATION_MENU);
         Beverage presentation = benefitDto.getPresentation();
-        if (null == presentation) {
+        if (Objects.isNull(presentation)) {
             System.out.println(NOTHING);
             return;
         }
@@ -103,7 +104,7 @@ public class OutputView {
     private void printBadge(BenefitDto benefitDto) {
         System.out.println(EVENT_BADGE);
         Badge badge = benefitDto.getBadge();
-        if (null == badge) {
+        if (Objects.isNull(badge)) {
             System.out.println(NOTHING);
             return;
         }
