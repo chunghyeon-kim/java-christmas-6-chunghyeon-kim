@@ -5,7 +5,6 @@ import christmas.domain.constant.dish.Beverage;
 import christmas.domain.constant.dish.Orderable;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class Order {
     private static final int TOTAL_MENU_UPPER_BOUND = 20;
@@ -22,17 +21,16 @@ public class Order {
     }
 
     private void validateNotOverLimit() {
-        int allDishes = contents.values().stream()
+        int allDishesCount = contents.values().stream()
                 .mapToInt(Integer::valueOf)
                 .sum();
-        if (allDishes > TOTAL_MENU_UPPER_BOUND) {
+        if (allDishesCount > TOTAL_MENU_UPPER_BOUND) {
             throw new IllegalArgumentException(Message.MENU_UPPER_BOUND_VIOLATION.getContent());
         }
     }
 
     private void validateNotOnlyBeverage() {
-        Set<Orderable> orderableSet = contents.keySet();
-        if (orderableSet.stream().allMatch(Beverage.class::isInstance)) {
+        if (contents.keySet().stream().allMatch(Beverage.class::isInstance)) {
             throw new IllegalArgumentException(Message.NOT_ONLY_BEVERAGE.getContent());
         }
     }

@@ -36,40 +36,40 @@ public class InputView {
 
     private Map<String, Integer> getOrderInput() {
         System.out.println(Message.MENU_CALL.getContent());
-        Map<String, Integer> emptyMap = new LinkedHashMap<>();
         String input = Console.readLine().trim();
         if (validateKindAndCountSplit(input)) {
-            return emptyMap;
+            return new LinkedHashMap<>();
         }
         String[] eachMenuString = splitByComma(input);
-        int kindOfMenu = eachMenuString.length;
+        int kindsOfMenu = eachMenuString.length;
 
         Map<String, Integer> parsedOrder = new LinkedHashMap<>();
         parseOrder(eachMenuString, parsedOrder);
-
-        if (parsedOrder.size() != kindOfMenu) {
-            return emptyMap;
+        if (parsedOrder.size() != kindsOfMenu) {
+            return new LinkedHashMap<>();
         }
         return parsedOrder;
     }
 
     private void parseOrder(String[] eachMenuString, Map<String, Integer> parsedOrder) {
         try {
-            Stream.of(eachMenuString).forEach(kindAndCount -> {
-                String[] kindAndCountSplit = splitByHyphen(kindAndCount);
-                validateKindAndCountSplit(kindAndCountSplit);
-                int dishCount = Integer.parseInt(kindAndCountSplit[SECOND_INDEX]);
-                validateDishCount(dishCount);
-                parsedOrder.put(kindAndCountSplit[FIRST_INDEX], dishCount);
-            });
+            eachMenuStringToMap(eachMenuString, parsedOrder);
             validateDishDuplicated(eachMenuString.length, parsedOrder);
-        } catch (NumberFormatException nfe) {
+        } catch (NumberFormatException | IndexOutOfBoundsException nfe) {
             System.out.println(Message.INVALID_ORDER.getContent());
         } catch (IllegalArgumentException ie) {
             System.out.println(ie.getMessage());
-        } catch (IndexOutOfBoundsException ioe) {
-            System.out.println(Message.INVALID_ORDER.getContent());
         }
+    }
+
+    private void eachMenuStringToMap(String[] eachMenuString, Map<String, Integer> parsedOrder) {
+        Stream.of(eachMenuString).forEach(kindAndCount -> {
+            String[] kindAndCountSplit = splitByHyphen(kindAndCount);
+            validateKindAndCountSplit(kindAndCountSplit);
+            int dishCount = Integer.parseInt(kindAndCountSplit[SECOND_INDEX]);
+            validateDishCount(dishCount);
+            parsedOrder.put(kindAndCountSplit[FIRST_INDEX], dishCount);
+        });
     }
 
     private DecemberDate getVisitDateInput() {
@@ -105,11 +105,11 @@ public class InputView {
     }
 
     private boolean validateKindAndCountSplit(String input) {
-        boolean inputStartsOrEndWithCOMMA = input.startsWith(COMMA) || input.endsWith(COMMA);
-        if (inputStartsOrEndWithCOMMA) {
+        boolean inputStartsOrEndWithComma = input.startsWith(COMMA) || input.endsWith(COMMA);
+        if (inputStartsOrEndWithComma) {
             System.out.println(Message.INVALID_ORDER.getContent());
         }
-        return inputStartsOrEndWithCOMMA;
+        return inputStartsOrEndWithComma;
     }
 
     private void validateKindAndCountSplit(String[] kindAndCountSplit) {

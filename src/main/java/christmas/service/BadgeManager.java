@@ -17,12 +17,10 @@ public class BadgeManager {
             benefitDto.setBadge(Badge.SANTA);
             return;
         }
-
         if (benefitDto.getTotalBenefit() >= TREE_THRESHOLD) {
             benefitDto.setBadge(Badge.TREE);
             return;
         }
-
         if (benefitDto.getTotalBenefit() >= STAR_THRESHOLD) {
             benefitDto.setBadge(Badge.STAR);
         }
