@@ -8,7 +8,6 @@ import christmas.service.discountcalculator.SpecialDiscountCalculator;
 import christmas.service.discountcalculator.WeekDiscountCalculator;
 import christmas.service.discountcalculator.XmasDdayDiscountCalculator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class DiscountManager {
     public BenefitDto applyDiscount(Map<Orderable, Integer> menus, DecemberDate visitDate) {
@@ -24,9 +23,9 @@ public class DiscountManager {
     }
 
     private int getTotalCost(Map<Orderable, Integer> menus) {
-        AtomicInteger totalCost = new AtomicInteger();
-        menus.forEach((kindOfMenu, quantity) -> totalCost.addAndGet(kindOfMenu.getPrice() * quantity));
-        return totalCost.get();
+        return menus.entrySet().stream()
+                .mapToInt(entry -> entry.getKey().getPrice() * entry.getValue())
+                .sum();
     }
 
 }
