@@ -29,8 +29,8 @@ public class DiscountManager {
         if (totalCost < DISCOUNT_APPLY_LOWER_BOUND) {
             return benefitDto;
         }
-        applyWeekDiscount(menus, benefitDto, visitDate);
         applyChristmasDdayDiscount(benefitDto, visitDate);
+        applyWeekDiscount(menus, benefitDto, visitDate);
         applySpecialDiscount(benefitDto, visitDate);
         return benefitDto;
     }
