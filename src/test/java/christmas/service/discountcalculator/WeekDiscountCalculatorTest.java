@@ -18,6 +18,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class WeekDiscountCalculatorTest {
+    private static final int EXAMPLE_TOTAL_COST = 100000;
+
     @DisplayName("주말에 메인 메뉴를 주문하면 그 개수에 따라 주말 할인이 적용된다.")
     @Test
     void applyWeekendDiscountWithMainDish() {
@@ -27,7 +29,7 @@ class WeekDiscountCalculatorTest {
         menu.put(Appetizer.TAPAS, 1);
         menu.put(Beverage.ZERO_COLA, 1);
 
-        BenefitDto benefitDto = new BenefitDto(menu, 100000);
+        BenefitDto benefitDto = new BenefitDto(menu, EXAMPLE_TOTAL_COST);
         DecemberDate visitDate = new DecemberDate(8);
 
         WeekDiscountCalculator.apply(menu, benefitDto, visitDate);
@@ -47,7 +49,7 @@ class WeekDiscountCalculatorTest {
         menu.put(Appetizer.TAPAS, 3);
         menu.put(Beverage.ZERO_COLA, 1);
 
-        BenefitDto benefitDto = new BenefitDto(menu, 100000);
+        BenefitDto benefitDto = new BenefitDto(menu, EXAMPLE_TOTAL_COST);
         DecemberDate visitDate = new DecemberDate(8);
 
         WeekDiscountCalculator.apply(menu, benefitDto, visitDate);
@@ -67,7 +69,7 @@ class WeekDiscountCalculatorTest {
         menu.put(Appetizer.TAPAS, 3);
         menu.put(Beverage.ZERO_COLA, 1);
 
-        BenefitDto benefitDto = new BenefitDto(menu, 100000);
+        BenefitDto benefitDto = new BenefitDto(menu, EXAMPLE_TOTAL_COST);
         DecemberDate visitDate = new DecemberDate(5);
 
         WeekDiscountCalculator.apply(menu, benefitDto, visitDate);
@@ -87,7 +89,7 @@ class WeekDiscountCalculatorTest {
         menu.put(Appetizer.TAPAS, 3);
         menu.put(Beverage.ZERO_COLA, 1);
 
-        BenefitDto benefitDto = new BenefitDto(menu, 100000);
+        BenefitDto benefitDto = new BenefitDto(menu, EXAMPLE_TOTAL_COST);
         DecemberDate visitDate = new DecemberDate(5);
 
         WeekDiscountCalculator.apply(menu, benefitDto, visitDate);

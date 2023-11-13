@@ -17,6 +17,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class SpecialDiscountCalculatorTest {
+    private static final int EXAMPLE_TOTAL_COST = 100000;
+
     @DisplayName("일요일에 방문하면 특별 할인이 적용된다.")
     @Test
     void applySpecialDiscountSunday() {
@@ -25,7 +27,7 @@ class SpecialDiscountCalculatorTest {
         menu.put(Appetizer.TAPAS, 3);
         menu.put(Beverage.ZERO_COLA, 1);
 
-        BenefitDto benefitDto = new BenefitDto(menu, 100000);
+        BenefitDto benefitDto = new BenefitDto(menu, EXAMPLE_TOTAL_COST);
         DecemberDate visitDate = new DecemberDate(10);
 
         SpecialDiscountCalculator.apply(benefitDto, visitDate);
@@ -43,7 +45,7 @@ class SpecialDiscountCalculatorTest {
         menu.put(Appetizer.TAPAS, 3);
         menu.put(Beverage.ZERO_COLA, 1);
 
-        BenefitDto benefitDto = new BenefitDto(menu, 100000);
+        BenefitDto benefitDto = new BenefitDto(menu, EXAMPLE_TOTAL_COST);
         DecemberDate visitDate = new DecemberDate(25);
 
         SpecialDiscountCalculator.apply(benefitDto, visitDate);
@@ -61,7 +63,7 @@ class SpecialDiscountCalculatorTest {
         menu.put(Appetizer.TAPAS, 3);
         menu.put(Beverage.ZERO_COLA, 1);
 
-        BenefitDto benefitDto = new BenefitDto(menu, 100000);
+        BenefitDto benefitDto = new BenefitDto(menu, EXAMPLE_TOTAL_COST);
         DecemberDate visitDate = new DecemberDate(12);
         SpecialDiscountCalculator.apply(benefitDto, visitDate);
 
