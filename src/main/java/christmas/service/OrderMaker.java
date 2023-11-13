@@ -11,14 +11,14 @@ import java.util.Map;
 import java.util.Objects;
 
 public class OrderMaker {
-    public Order makeOrder(Map<String, Integer> parsedOrder) {
+    public Order make(Map<String, Integer> parsedOrder) {
         Order order = new Order();
         parsedOrder.forEach((dishLabel, count) -> order.addMenu(findDish(dishLabel), count));
         order.validate();
         return order;
     }
 
-    public Orderable findDish(String input) {
+    private Orderable findDish(String input) {
         if (Objects.nonNull(Appetizer.valueOfLabel(input))) {
             return Appetizer.valueOfLabel(input);
         }

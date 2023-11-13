@@ -40,7 +40,7 @@ public class ChristmasController {
         Order order;
         Map<String, Integer> parsedInput = inputView.getOrder();
         try {
-            order = orderMaker.makeOrder(parsedInput);
+            order = orderMaker.make(parsedInput);
         } catch (IllegalArgumentException ie) {
             System.out.println(ie.getMessage());
             return null;
