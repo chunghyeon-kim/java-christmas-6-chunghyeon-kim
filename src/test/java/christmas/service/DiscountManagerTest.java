@@ -1,5 +1,12 @@
 package christmas.service;
 
+import static christmas.domain.constant.Discount.CHRISTMAS_D_DAY_DISCOUNT_DEFAULT;
+import static christmas.domain.constant.Discount.CHRISTMAS_D_DAY_DISCOUNT_UNIT;
+import static christmas.domain.constant.Discount.DATE_OF_CHRISTMAS;
+import static christmas.domain.constant.Discount.ONE;
+import static christmas.domain.constant.Discount.SPECIAL_DISCOUNT_AMOUNT;
+import static christmas.domain.constant.Discount.WEEK_DISCOUNT_UNIT;
+import static christmas.domain.constant.Discount.ZERO;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.DecemberDate;
@@ -15,14 +22,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class DiscountManagerTest {
-    private static final int WEEK_DISCOUNT_UNIT = 2023;
-    private static final int SPECIAL_DISCOUNT = 1000;
-    private static final int ZERO = 0;
-    private static final int ONE = 1;
-    private static final int DAY_OF_CHRISTMAS = 25;
-    private static final int D_DAY_DISCOUNT_UNIT = 100;
-    private static final int D_DAY_DISCOUNT_DEFAULT = 1000;
-
     private final DiscountManager discountManager = new DiscountManager();
 
     @DisplayName("총 주문 금액이 10000원 미만이면 할인이 적용되지 않는다.")
@@ -50,7 +49,7 @@ class DiscountManagerTest {
         DecemberDate visitDate = new DecemberDate(8);
 
         assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
-                .isEqualTo(WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate));
+                .isEqualTo(WEEK_DISCOUNT_UNIT.getValue() + dDayDiscount(visitDate));
         assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
                 .containsKeys(Benefit.D_DAY_DISCOUNT, Benefit.WEEK_END_DISCOUNT);
         assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
@@ -88,7 +87,7 @@ class DiscountManagerTest {
         DecemberDate visitDate = new DecemberDate(21);
 
         assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
-                .isEqualTo(4 * WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate));
+                .isEqualTo(4 * WEEK_DISCOUNT_UNIT.getValue() + dDayDiscount(visitDate));
         assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
                 .containsKeys(Benefit.D_DAY_DISCOUNT, Benefit.WEEK_DAY_DISCOUNT);
         assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
@@ -126,7 +125,8 @@ class DiscountManagerTest {
         DecemberDate visitDate = new DecemberDate(25);
 
         assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
-                .isEqualTo(4 * WEEK_DISCOUNT_UNIT + dDayDiscount(visitDate) + SPECIAL_DISCOUNT);
+                .isEqualTo(4 * WEEK_DISCOUNT_UNIT.getValue() + dDayDiscount(visitDate)
+                        + SPECIAL_DISCOUNT_AMOUNT.getValue());
         assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
                 .containsKeys(Benefit.D_DAY_DISCOUNT, Benefit.WEEK_DAY_DISCOUNT, Benefit.SPECIAL_DISCOUNT);
         assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
@@ -143,7 +143,7 @@ class DiscountManagerTest {
         DecemberDate visitDate = new DecemberDate(27);
 
         assertThat(discountManager.applyDiscount(menu, visitDate).getTotalDiscount())
-                .isEqualTo(4 * WEEK_DISCOUNT_UNIT);
+                .isEqualTo(4 * WEEK_DISCOUNT_UNIT.getValue());
         assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
                 .containsKey(Benefit.WEEK_DAY_DISCOUNT);
         assertThat(discountManager.applyDiscount(menu, visitDate).getBenefitMap())
@@ -151,10 +151,11 @@ class DiscountManagerTest {
     }
 
     private int dDayDiscount(DecemberDate decemberDate) {
-        if (decemberDate.date() > DAY_OF_CHRISTMAS) {
-            return ZERO;
+        if (decemberDate.date() > DATE_OF_CHRISTMAS.getValue()) {
+            return ZERO.getValue();
         }
-        return (decemberDate.date() - ONE) * D_DAY_DISCOUNT_UNIT + D_DAY_DISCOUNT_DEFAULT;
+        return (decemberDate.date() - ONE.getValue()) * CHRISTMAS_D_DAY_DISCOUNT_UNIT.getValue()
+                + CHRISTMAS_D_DAY_DISCOUNT_DEFAULT.getValue();
     }
 
 }
