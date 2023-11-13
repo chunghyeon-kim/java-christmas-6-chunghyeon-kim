@@ -17,9 +17,9 @@ public class DiscountManager {
         if (totalCost < Discount.DISCOUNT_APPLY_LOWER_BOUND.getValue()) {
             return benefitDto;
         }
-        XmasDdayDiscountCalculator.applyChristmasDdayDiscount(benefitDto, visitDate);
-        WeekDiscountCalculator.applyWeekDiscount(menus, benefitDto, visitDate);
-        SpecialDiscountCalculator.applySpecialDiscount(benefitDto, visitDate);
+        XmasDdayDiscountCalculator.apply(benefitDto, visitDate);
+        WeekDiscountCalculator.apply(menus, benefitDto, visitDate);
+        SpecialDiscountCalculator.apply(benefitDto, visitDate);
         return benefitDto;
     }
 

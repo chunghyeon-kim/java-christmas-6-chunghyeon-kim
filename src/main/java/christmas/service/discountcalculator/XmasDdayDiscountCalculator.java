@@ -15,7 +15,7 @@ public class XmasDdayDiscountCalculator {
 
     }
 
-    public static void applyChristmasDdayDiscount(BenefitDto benefitDto, DecemberDate visitDate) {
+    public static void apply(BenefitDto benefitDto, DecemberDate visitDate) {
         if (visitDate.date() <= DATE_OF_CHRISTMAS.getValue()) {
             benefitDto.addBenefit(Benefit.D_DAY_DISCOUNT, calculateChristmasDdayDiscount(visitDate));
         }

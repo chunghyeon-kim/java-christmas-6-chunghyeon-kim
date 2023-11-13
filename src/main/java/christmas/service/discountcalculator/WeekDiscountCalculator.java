@@ -20,7 +20,7 @@ public class WeekDiscountCalculator {
 
     }
 
-    public static void applyWeekDiscount(Map<Orderable, Integer> menus, BenefitDto benefitDto, DecemberDate visitDate) {
+    public static void apply(Map<Orderable, Integer> menus, BenefitDto benefitDto, DecemberDate visitDate) {
         if (isWeekend(visitDate)) {
             applyWeekendDiscount(menus, benefitDto);
             return;

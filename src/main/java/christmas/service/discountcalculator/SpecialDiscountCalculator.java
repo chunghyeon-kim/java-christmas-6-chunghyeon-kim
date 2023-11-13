@@ -14,7 +14,7 @@ public class SpecialDiscountCalculator {
 
     }
 
-    public static void applySpecialDiscount(BenefitDto benefitDto, DecemberDate visitDate) {
+    public static void apply(BenefitDto benefitDto, DecemberDate visitDate) {
         if (visitDate.date() == DATE_OF_CHRISTMAS.getValue()
                 || visitDate.date() % ONE_WEEK.getValue() == THREE.getValue()) {
             benefitDto.addBenefit(Benefit.SPECIAL_DISCOUNT, SPECIAL_DISCOUNT_AMOUNT.getValue());
