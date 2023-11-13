@@ -68,7 +68,7 @@ public class OutputView {
 
     private void printPresentationMenu(BenefitDto benefitDto) {
         System.out.println(PRESENTATION_MENU);
-        Beverage presentation = benefitDto.getPresentation();
+        Beverage presentation = benefitDto.getPresent();
         if (Objects.isNull(presentation)) {
             System.out.println(NOTHING);
             return;

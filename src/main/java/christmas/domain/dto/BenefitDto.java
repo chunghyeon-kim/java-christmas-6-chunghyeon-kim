@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 public class BenefitDto {
     private final Map<Orderable, Integer> dishes;
     private final int totalCost;
-    private Beverage presentation;
+    private Beverage present;
     private final Map<Benefit, Integer> benefitMap = new LinkedHashMap<>();
     private Badge badge;
 
@@ -46,8 +46,8 @@ public class BenefitDto {
         return totalCost;
     }
 
-    public Beverage getPresentation() {
-        return presentation;
+    public Beverage getPresent() {
+        return present;
     }
 
     public Map<Benefit, Integer> getBenefitMap() {
@@ -59,7 +59,7 @@ public class BenefitDto {
     }
 
     public void presentChampagne() {
-        presentation = Beverage.CHAMPAGNE;
+        present = Beverage.CHAMPAGNE;
     }
 
     public void setBadge(Badge badge) {

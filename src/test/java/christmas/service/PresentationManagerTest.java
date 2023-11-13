@@ -20,7 +20,7 @@ class PresentationManagerTest {
         PresentationManager.present(dto);
 
         assertThat(dto.getBenefitMap()).containsKey(Benefit.PRESENTATION);
-        assertThat(dto.getPresentation()).isEqualTo(Beverage.CHAMPAGNE);
+        assertThat(dto.getPresent()).isEqualTo(Beverage.CHAMPAGNE);
         assertThat(dto.getTotalBenefit()).isEqualTo(Beverage.CHAMPAGNE.getPrice());
     }
 
@@ -31,7 +31,7 @@ class PresentationManagerTest {
         PresentationManager.present(dto);
 
         assertThat(dto.getBenefitMap()).doesNotContainKey(Benefit.PRESENTATION);
-        assertThat(dto.getPresentation()).isNull();
+        assertThat(dto.getPresent()).isNull();
         assertThat(dto.getTotalBenefit()).isZero();
     }
 
