@@ -21,6 +21,7 @@ class PresentationManagerTest {
 
         assertThat(dto.getBenefitMap()).containsKey(Benefit.PRESENTATION);
         assertThat(dto.getPresentation()).isEqualTo(Beverage.CHAMPAGNE);
+        assertThat(dto.getTotalBenefit()).isEqualTo(Beverage.CHAMPAGNE.getPrice());
     }
 
     @DisplayName("할인 전 총주문 금액이 12만원 미만인 경우 샴페인을 증정하지 않는다.")
@@ -31,6 +32,7 @@ class PresentationManagerTest {
 
         assertThat(dto.getBenefitMap()).doesNotContainKey(Benefit.PRESENTATION);
         assertThat(dto.getPresentation()).isNull();
+        assertThat(dto.getTotalBenefit()).isZero();
     }
 
 }
