@@ -28,8 +28,8 @@ class WeekDiscountCalculatorTest {
         menu.put(Beverage.ZERO_COLA, 1);
 
         BenefitDto benefitDto = new BenefitDto(menu, 100000);
-
         DecemberDate visitDate = new DecemberDate(8);
+
         WeekDiscountCalculator.apply(menu, benefitDto, visitDate);
 
         assertThat(benefitDto.getBenefitMap())
@@ -48,8 +48,8 @@ class WeekDiscountCalculatorTest {
         menu.put(Beverage.ZERO_COLA, 1);
 
         BenefitDto benefitDto = new BenefitDto(menu, 100000);
-
         DecemberDate visitDate = new DecemberDate(8);
+
         WeekDiscountCalculator.apply(menu, benefitDto, visitDate);
 
         assertThat(benefitDto.getBenefitMap())
@@ -68,8 +68,8 @@ class WeekDiscountCalculatorTest {
         menu.put(Beverage.ZERO_COLA, 1);
 
         BenefitDto benefitDto = new BenefitDto(menu, 100000);
-
         DecemberDate visitDate = new DecemberDate(5);
+
         WeekDiscountCalculator.apply(menu, benefitDto, visitDate);
 
         assertThat(benefitDto.getBenefitMap())
@@ -88,8 +88,8 @@ class WeekDiscountCalculatorTest {
         menu.put(Beverage.ZERO_COLA, 1);
 
         BenefitDto benefitDto = new BenefitDto(menu, 100000);
-
         DecemberDate visitDate = new DecemberDate(5);
+
         WeekDiscountCalculator.apply(menu, benefitDto, visitDate);
 
         assertThat(benefitDto.getBenefitMap())
