@@ -42,16 +42,11 @@ public class InputView {
         }
         String[] eachMenuString = splitByComma(input);
         int kindsOfMenu = eachMenuString.length;
-
-        Map<String, Integer> parsedOrder = new LinkedHashMap<>();
-        parseOrder(eachMenuString, parsedOrder);
-        if (parsedOrder.size() != kindsOfMenu) {
-            return new LinkedHashMap<>();
-        }
-        return parsedOrder;
+        return parseOrder(eachMenuString, kindsOfMenu);
     }
 
-    private void parseOrder(String[] eachMenuString, Map<String, Integer> parsedOrder) {
+    private Map<String, Integer> parseOrder(String[] eachMenuString, int kindsOfMenu) {
+        Map<String, Integer> parsedOrder = new LinkedHashMap<>();
         try {
             eachMenuStringToMap(eachMenuString, parsedOrder);
             validateDishDuplicated(eachMenuString.length, parsedOrder);
@@ -60,6 +55,11 @@ public class InputView {
         } catch (IllegalArgumentException ie) {
             System.out.println(ie.getMessage());
         }
+
+        if (parsedOrder.size() != kindsOfMenu) {
+            return new LinkedHashMap<>();
+        }
+        return parsedOrder;
     }
 
     private void eachMenuStringToMap(String[] eachMenuString, Map<String, Integer> parsedOrder) {
